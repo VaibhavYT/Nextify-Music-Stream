@@ -1,9 +1,10 @@
 import { Subscription, UserDetails } from "@/types";
-import { User } from "@supabase/auth-helpers-nextjs";
+
 import { createContext, useState, useEffect, useContext } from "react";
 import {
   useSessionContext,
   useUser as useSupaUser,
+  User
 } from "@supabase/auth-helpers-react";
 type UserContextType = {
   accessToken: string | null;
@@ -35,13 +36,13 @@ export const MyUserContextProvider = (props: Props) => {
 
   // Getting user detail
 
-  const getUserDetails = () => supabase.from("user").select("*").single();
+  const getUserDetails = () => supabase.from("users").select("*").single();
 
   // getting subscription detail
   const getSubscription = () =>
     supabase
-      .from("subscription")
-      .select("*,prices(*,product(*,products(*))")
+      .from("subscriptions")
+      .select('*, prices(*, products(*))')
       .in("status", ["trailing", "active"])
       .single(); // response single item
 
@@ -58,9 +59,9 @@ export const MyUserContextProvider = (props: Props) => {
           }
           if (subscriptionPromise.status === "fulfilled") {
             setSubscription(
-              subscriptionPromise.value.data as unknown as Subscription
+              subscriptionPromise.value.data  as Subscription
             );
-            // temp debug by using as unknown
+            // temp debug by using as unknown => fixed
           }
           setIsLoadingData(false);
         }
@@ -69,7 +70,7 @@ export const MyUserContextProvider = (props: Props) => {
       setUserDetails(null);
       setSubscription(null);
     }
-  }, [user, isLoadingData]);
+  }, [user, isLoadingUser]);
 
   const value = {
     accessToken,

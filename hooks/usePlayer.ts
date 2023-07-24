@@ -5,7 +5,7 @@ interface PlayerStore {
   activeId?: string;
   setId: (id: string) => void;  
   
-  // NOTE :  This means that setId which accepts the id which is type of string and setId will retur n void 
+  // NOTE :  This means that setId which accepts the id which is type of string and setId will return void 
   
   setIds: (ids: string[]) => void;
   reset: () => void;

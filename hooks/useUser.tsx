@@ -40,12 +40,18 @@ export const MyUserContextProvider = (props: Props) => {
 
   // getting subscription detail
   const getSubscription = () =>
-    supabase
-      .from("subscriptions")
-      .select('*, prices(*, products(*))')
-      .in("status", ["trailing", "active"])
-      .single(); // response single item
+  supabase
+    .from('subscriptions')
+    .select('*, prices(*, products(*))')
+    .in('status', ['active','unpaid'])
+    .single();
 
+  
+
+  
+
+
+    
   useEffect(() => {
     if (user && !isLoadingData && !userDetails && !subscription) {
       setIsLoadingData(true);
@@ -59,9 +65,10 @@ export const MyUserContextProvider = (props: Props) => {
           }
           if (subscriptionPromise.status === "fulfilled") {
             setSubscription(
-              subscriptionPromise.value.data  as Subscription
+              subscriptionPromise.value.data as unknown  as Subscription
             );
             // temp debug by using as unknown => fixed
+            
           }
           setIsLoadingData(false);
         }

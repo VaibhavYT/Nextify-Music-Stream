@@ -65,4 +65,4 @@ const AccountContent = () => {
     </div>
   );
 }
- 
+export default AccountContent;
